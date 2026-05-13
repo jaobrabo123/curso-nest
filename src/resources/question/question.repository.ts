@@ -1,11 +1,11 @@
-import { Provider } from '@nestjs/common';
+import { Provider } from "@nestjs/common";
 import {
     RepositoryOf,
     SelectModels,
     setupVSRepo,
-} from '../../../VSRepository/VSRepository';
-import { PrismaService } from '../../database/prisma.service';
-import { Question } from '../../generated/prisma/client';
+} from "../../../VSRepository/VSRepository";
+import { PrismaService } from "../../database/prisma.service";
+import { Question } from "../../generated/prisma/client";
 
 const questionSelectModels = {
     public: {
@@ -14,13 +14,27 @@ const questionSelectModels = {
         body: true,
         userId: true,
     },
-} satisfies SelectModels<'Question'>;
+    withAnswers: {
+        id: true,
+        title: true,
+        body: true,
+        userId: true,
+        answers: {
+            select: {
+                id: true,
+                body: true,
+                questionId: true,
+                userId: true,
+            },
+        },
+    },
+} satisfies SelectModels<"Question">;
 
-const questionVSRepo = setupVSRepo<Question, 'Question'>()({
-    tableName: 'question',
-    pkName: 'id',
+const questionVSRepo = setupVSRepo<Question, "Question">()({
+    tableName: "question",
+    pkName: "id",
     selectModels: questionSelectModels,
-    defaultSelectModel: 'public',
+    defaultSelectModel: "public",
     methods: {
         findMany: { map: true },
     },
@@ -28,7 +42,7 @@ const questionVSRepo = setupVSRepo<Question, 'Question'>()({
 
 export type QuestionRepository = RepositoryOf<typeof questionVSRepo>;
 
-export const QUESTION_REPOSITORY = Symbol('QUESTION_REPOSITORY');
+export const QUESTION_REPOSITORY = Symbol("QUESTION_REPOSITORY");
 
 export const QuestionRepositoryProvider: Provider = {
     provide: QUESTION_REPOSITORY,

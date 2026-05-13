@@ -1,10 +1,10 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import {
     QUESTION_REPOSITORY,
     type QuestionRepository,
-} from './question.repository';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
+} from "./question.repository";
+import { CreateQuestionDto } from "./dto/create-question.dto";
+import { UpdateQuestionDto } from "./dto/update-question.dto";
 
 @Injectable()
 export class QuestionService {
@@ -21,14 +21,18 @@ export class QuestionService {
     }
 
     async findAll() {
-        return await this.questionRepository.findMany();
+        return await this.questionRepository.findMany({
+            selectModel: "withAnswers",
+        });
     }
 
     async findOne(id: string) {
-        const result = await this.questionRepository.get(id);
+        const result = await this.questionRepository.get(id, {
+            selectModel: "withAnswers",
+        });
         if (!result)
             throw new NotFoundException(
-                'Não foi possivel encontrar essa questão.',
+                "Não foi possivel encontrar essa questão.",
             );
 
         return result;
@@ -38,7 +42,7 @@ export class QuestionService {
         const question = await this.questionRepository.get(id);
         if (!question)
             throw new NotFoundException(
-                'Não foi possivel encontrar essa questão.',
+                "Não foi possivel encontrar essa questão.",
             );
 
         return await this.questionRepository.save({
@@ -51,7 +55,7 @@ export class QuestionService {
         const question = await this.questionRepository.get(id);
         if (!question)
             throw new NotFoundException(
-                'Não foi possivel encontrar essa questão.',
+                "Não foi possivel encontrar essa questão.",
             );
 
         await this.questionRepository.remove(id);

@@ -1,5 +1,5 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { USER_REPOSITORY, type UserRepository } from './user.repository';
+import { ConflictException, Inject, Injectable } from "@nestjs/common";
+import { USER_REPOSITORY, type UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserValidator {
@@ -12,6 +12,6 @@ export class UserValidator {
         const existsWithEmail = await this.userRepository.existsByEmail(email);
 
         if (existsWithEmail)
-            throw new ConflictException('Já existe um usuário com esse email');
+            throw new ConflictException("Já existe um usuário com esse email");
     }
 }

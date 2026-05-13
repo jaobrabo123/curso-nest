@@ -1,9 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { USER_REPOSITORY, type UserRepository } from './user.repository';
-import { UpdateUserDTO } from './dto/update-user.dto';
-import { UserValidator } from './user.validator';
-import bcrypt from 'bcrypt';
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { CreateUserDTO } from "./dto/create-user.dto";
+import { USER_REPOSITORY, type UserRepository } from "./user.repository";
+import { UpdateUserDTO } from "./dto/update-user.dto";
+import { UserValidator } from "./user.validator";
+import bcrypt from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -27,15 +27,15 @@ export class UserService {
 
     async findById(id: string) {
         const user = await this.userRepository.get(id);
-        if (!user) throw new NotFoundException('Usuário não encontrado.');
+        if (!user) throw new NotFoundException("Usuário não encontrado.");
         return user;
     }
 
     async updateUser(id: string, userDTO: UpdateUserDTO) {
         const user = await this.userRepository.get(id, {
-            selectModel: 'internal',
+            selectModel: "internal",
         });
-        if (!user) throw new NotFoundException('Usuário não encontrado.');
+        if (!user) throw new NotFoundException("Usuário não encontrado.");
 
         return this.userRepository.save({ ...user, ...userDTO });
     }
@@ -43,7 +43,7 @@ export class UserService {
     async deleteById(id: string) {
         const user = await this.userRepository.get(id);
         if (!user)
-            throw new NotFoundException('Não existe usuário com esse id.');
+            throw new NotFoundException("Não existe usuário com esse id.");
         await this.userRepository.remove(id);
     }
 }

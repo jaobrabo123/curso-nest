@@ -1,11 +1,11 @@
-import { Provider } from '@nestjs/common';
-import { RepositoryOf, setupVSRepo } from '../../../VSRepository/VSRepository';
-import { Answer } from '../../generated/prisma/client';
-import { PrismaService } from '../../database/prisma.service';
+import { Provider } from "@nestjs/common";
+import { RepositoryOf, setupVSRepo } from "../../../VSRepository/VSRepository";
+import { Answer } from "../../generated/prisma/client";
+import { PrismaService } from "../../database/prisma.service";
 
-const answerVSRepo = setupVSRepo<Answer, 'Answer'>()({
-    tableName: 'answer',
-    pkName: 'id',
+const answerVSRepo = setupVSRepo<Answer, "Answer">()({
+    tableName: "answer",
+    pkName: "id",
     selectModels: {
         public: {
             id: true,
@@ -14,7 +14,7 @@ const answerVSRepo = setupVSRepo<Answer, 'Answer'>()({
             userId: true,
         },
     },
-    defaultSelectModel: 'public',
+    defaultSelectModel: "public",
     methods: {
         findMany: { map: true },
     },
@@ -22,7 +22,7 @@ const answerVSRepo = setupVSRepo<Answer, 'Answer'>()({
 
 export type AnswerRepository = RepositoryOf<typeof answerVSRepo>;
 
-export const ANSWER_REPOSITORY = Symbol('ANSWER_REPOSITORY');
+export const ANSWER_REPOSITORY = Symbol("ANSWER_REPOSITORY");
 
 export const AnswerRepositoryProvider: Provider = {
     provide: ANSWER_REPOSITORY,

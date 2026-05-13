@@ -7,13 +7,13 @@ import {
     Patch,
     Post,
     UseGuards,
-} from '@nestjs/common';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { UserService } from './user.service';
-import { UpdateUserDTO } from './dto/update-user.dto';
-import { AuthGuard } from '../../auth/auth.guard';
+} from "@nestjs/common";
+import { CreateUserDTO } from "./dto/create-user.dto";
+import { UserService } from "./user.service";
+import { UpdateUserDTO } from "./dto/update-user.dto";
+import { AuthGuard } from "../../auth/auth.guard";
 
-@Controller('user')
+@Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -29,21 +29,21 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
-    @Get(':id')
-    async findById(@Param('id') id: string) {
+    @Get(":id")
+    async findById(@Param("id") id: string) {
         return await this.userService.findById(id);
     }
 
     @UseGuards(AuthGuard)
-    @Delete(':id')
-    async deleteById(@Param('id') id: string) {
+    @Delete(":id")
+    async deleteById(@Param("id") id: string) {
         await this.userService.deleteById(id);
     }
 
     @UseGuards(AuthGuard)
-    @Patch(':id')
+    @Patch(":id")
     async updateUser(
-        @Param('id') id: string,
+        @Param("id") id: string,
         @Body() updateUser: UpdateUserDTO,
     ) {
         return await this.userService.updateUser(id, updateUser);
